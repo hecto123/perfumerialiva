@@ -633,11 +633,11 @@ display:block;
 
 .admin-access-btn{
 
-position:absolute;
+position:fixed;
 
-top:30px;
+top:18px;
 
-right:30px;
+right:18px;
 
 padding:12px 18px;
 
@@ -653,7 +653,7 @@ font-weight:700;
 
 cursor:pointer;
 
-z-index:200;
+z-index:999;
 
 box-shadow:0 10px 30px rgba(0,0,0,.25);
 
@@ -661,10 +661,10 @@ box-shadow:0 10px 30px rgba(0,0,0,.25);
 
 @media screen and (max-width: 768px) {
   .admin-access-btn {
-    top:18px;
-    right:18px;
+    top:12px;
+    right:12px;
     padding:10px 14px;
-    font-size:14px;
+    font-size:13px;
   }
 }
 
