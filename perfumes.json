@@ -1,0 +1,25 @@
+[
+{
+"nombre":"Dior Sauvage",
+"precio":"420000",
+"imagen":"imagenes/fragrance-1991531_1280.jpg"
+},
+
+{
+"nombre":"Bleu de Chanel",
+"precio":"530000",
+"imagen":"imagenes/colorful-bottle-perfumes-elegance-beautiful-shape-colorful-bottle-perfumes-269500092.webp"
+},
+
+{
+"nombre":"Versace Eros",
+"precio":"390000",
+"imagen":"imagenes/perfume-8032808_1280.jpg"
+},
+
+{
+"nombre":"Lattafa Khamrah",
+"precio":"220000",
+"imagen":"imagenes/bottle-2812214_1280.jpg"
+}
+]
