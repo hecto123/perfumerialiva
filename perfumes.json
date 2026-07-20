@@ -2,24 +2,28 @@
 {
 "nombre":"Dior Sauvage",
 "precio":"420000",
-"imagen":"imagenes/fragrance-1991531_1280.jpg"
+"imagen":"imagenes/fragrance-1991531_1280.jpg",
+"ingredientes":["bergamota","pimienta","lavanda","patchouli","ambroxan"]
 },
 
 {
 "nombre":"Bleu de Chanel",
 "precio":"530000",
-"imagen":"imagenes/colorful-bottle-perfumes-elegance-beautiful-shape-colorful-bottle-perfumes-269500092.webp"
+"imagen":"imagenes/colorful-bottle-perfumes-elegance-beautiful-shape-colorful-bottle-perfumes-269500092.webp",
+"ingredientes":["limón","incienso","cedro","jengibre","sándalo"]
 },
 
 {
 "nombre":"Versace Eros",
 "precio":"390000",
-"imagen":"imagenes/perfume-8032808_1280.jpg"
+"imagen":"imagenes/perfume-8032808_1280.jpg",
+"ingredientes":["menta","manzana verde","vainilla","cedro","pachulí"]
 },
 
 {
 "nombre":"Lattafa Khamrah",
 "precio":"220000",
-"imagen":"imagenes/bottle-2812214_1280.jpg"
+"imagen":"imagenes/bottle-2812214_1280.jpg",
+"ingredientes":["azafrán","rosa","madera","oud","ámbar"]
 }
 ]

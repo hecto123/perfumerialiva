@@ -28,16 +28,17 @@
 
 </div>
 
+<button class="admin-access-btn" onclick="openAdminLogin()">Acceso admin</button>
+
 </header>
 
 <section class="hero">
   <div class="hero-text">
-    <span>Perfumes por WhatsApp</span>
-    <h2>Compra fragancias originales y paga fácil por WhatsApp</h2>
-    <p>Envía tu pedido al WhatsApp, recibe asesoría y compra seguro. Ideal para clientes que quieren una venta rápida y confiable.</p>
+    <span>Fragancias premium</span>
+    <h2>Descubre los aromas que enamoran</h2>
+    <p>Explora una selección de perfumes exclusivos, con un diseño atractivo y opciones pensadas para que el cliente quiera interactuar y comprar.</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="https://wa.me/573147317718?text=Hola,%20quiero%20comprar%20un%20perfume" target="_blank" rel="noopener">Pedir por WhatsApp</a>
-      <a class="btn btn-secondary" href="https://github.com/hecto123/perfumerialiva" target="_blank" rel="noopener">Ver GitHub</a>
+      <!-- El botón Ver catálogo ha sido eliminado según la solicitud -->
     </div>
   </div>
   <div class="hero-image">
@@ -45,83 +46,140 @@
   </div>
 </section>
 
-<section class="buscador">
-  <h2>Busca tu perfume</h2>
-  <input type="text" id="buscar" placeholder="Buscar perfume..." oninput="filtrarCatalogo()">
+<div class="admin-login-overlay" id="adminLoginOverlay">
+  <div class="admin-login-modal">
+    <button class="modal-close" onclick="closeAdminLogin()">×</button>
+    <h3>Acceso administrador</h3>
+    <p>Ingresa la clave para ver el panel y administrar productos.</p>
+    <input type="password" id="adminPassword" placeholder="Clave secreta">
+    <button class="btn btn-primary" onclick="verifyAdmin()">Entrar</button>
+    <p class="admin-login-error" id="adminLoginError"></p>
+  </div>
+</div>
+
+<section class="admin-panel" id="admin-panel">
+  <h2>Sube tus productos y guarda pedidos</h2>
+  <div class="admin-grid">
+    <div class="admin-card">
+      <h3>Agregar producto</h3>
+      <div class="form-group">
+        <label for="productImage">Foto del producto</label>
+        <input type="file" id="productImage" accept="image/*" capture="environment">
+        <small class="image-note">Desde el celular puedes tomar foto al instante.</small>
+      </div>
+      <div class="image-preview" id="imagePreview"></div>
+      <div class="form-group">
+        <label for="productName">Nombre</label>
+        <input type="text" id="productName" placeholder="Nombre del perfume">
+      </div>
+      <div class="form-group">
+        <label for="productPrice">Precio</label>
+        <input type="number" id="productPrice" placeholder="Precio en pesos">
+      </div>
+      <div class="form-group">
+        <label for="productIngredients">Ingredientes</label>
+        <input type="text" id="productIngredients" placeholder="Ej: rosa, vainilla, cedro">
+      </div>
+      <button class="btn btn-primary" id="addProductButton" onclick="addProduct()">Agregar producto</button>
+      <button class="btn btn-secondary" id="clearImageButton" type="button" onclick="clearSelectedImage()" style="margin-top:12px;">Limpiar imagen</button>
+      <button class="btn btn-secondary" id="cancelEditButton" onclick="cancelEdit()" style="display:none; margin-top:12px;">Cancelar edición</button>
+      <div class="product-preview" id="productPreview"></div>
+    </div>
+    <div class="admin-card">
+      <h3>Registrar pedido</h3>
+      <div class="form-group">
+        <label for="customerName">Nombre del cliente</label>
+        <input type="text" id="customerName" placeholder="Nombre completo">
+      </div>
+      <div class="form-group">
+        <label for="customerPhone">Teléfono</label>
+        <input type="text" id="customerPhone" placeholder="Ej: 3111234567">
+      </div>
+      <div class="form-group">
+        <label for="orderProduct">Producto</label>
+        <select id="orderProduct"></select>
+      </div>
+      <div class="form-group">
+        <label for="customerNote">Nota</label>
+        <input type="text" id="customerNote" placeholder="Detalle adicional o mensaje">
+      </div>
+      <button class="btn btn-primary" onclick="saveOrder()">Guardar pedido</button>
+      <div class="orders-summary">
+        <h4>Pedidos guardados</h4>
+        <div id="ordersList"></div>
+      </div>
+    </div>
+  </div>
+  <div class="admin-products-section">
+    <h3>Productos en el catálogo</h3>
+    <div id="adminProductList" class="admin-product-list"></div>
+  </div>
 </section>
 
-<section class="galeria">
-  <h2>Nuestras fragancias</h2>
-  <div class="galeria-grid">
-    <div class="galeria-card">
-      <img src="imagenes/portada.jpg" alt="Perfume portada">
-      <div class="galeria-info">
-        <p>Perfume portada</p>
-        <button onclick="comprar('Perfume portada')">Comprar</button>
+<section class="quienes-somos">
+  <div class="quienes-somos-content">
+    <div>
+      <span>Quiénes somos</span>
+      <h2>Perfumería LIVA: pasión por las fragancias</h2>
+      <p>Somos una tienda enfocada en ofrecer aromas originales y experiencias premium. Cada perfume se selecciona pensando en calidad, estilo y satisfacción del cliente.</p>
+    </div>
+    <div class="quienes-somos-facts">
+      <div class="fact-item">
+        <strong>+5 años</strong>
+        <p>Atendiendo clientes con confianza y seguridad.</p>
+      </div>
+      <div class="fact-item">
+        <strong>100% original</strong>
+        <p>Solo productos auténticos y garantizados.</p>
+      </div>
+      <div class="fact-item">
+        <strong>Entrega rápida</strong>
+        <p>Pedidos listos para enviar en breve.</p>
       </div>
     </div>
-    <div class="galeria-card">
-      <img src="imagenes/pexels-valeria-boltneva-1961795.jpg" alt="Botella de perfume elegante">
-      <div class="galeria-info">
-        <p>Botella de perfume elegante</p>
-        <button onclick="comprar('Botella de perfume elegante')">Comprar</button>
-      </div>
+  </div>
+</section>
+
+<section class="testimonios">
+  <h2>Comentarios reales de clientes</h2>
+  <div class="testimonios-grid">
+    <article class="testimonial-card">
+      <div class="screenshot-header"><span>Chat</span><span>10:22</span></div>
+      <div class="message received">¡El perfume llegó perfecto! Gracias por la rapidez.</div>
+      <div class="message sent">Nos alegra que te haya encantado.</div>
+    </article>
+    <article class="testimonial-card">
+      <div class="screenshot-header"><span>Chat</span><span>14:08</span></div>
+      <div class="message received">La fragancia es increíble, es justo lo que buscaba.</div>
+      <div class="message sent">Gracias por comprar con nosotros.</div>
+    </article>
+    <article class="testimonial-card">
+      <div class="screenshot-header"><span>Chat</span><span>18:50</span></div>
+      <div class="message received">Muy buena atención y entrega rápida. Recomiendo 100%.</div>
+      <div class="message sent">Un gusto atenderte, que lo disfrutes.</div>
+    </article>
+  </div>
+</section>
+
+<section class="catalogo" id="catalogo">
+  <h2>Catálogo de perfumes</h2>
+  <div class="catalogo-grid"></div>
+</section>
+
+<section class="ingredientes">
+  <h2>Ingredientes destacados</h2>
+  <div class="ingredientes-grid">
+    <div class="ingrediente-card">
+      <h3>Dior Sauvage</h3>
+      <p>Bergamota, pimienta, lavanda, patchouli y ambroxan.</p>
     </div>
-    <div class="galeria-card">
-      <img src="imagenes/fragrance-1991531_1280.jpg" alt="Fragancia en botella">
-      <div class="galeria-info">
-        <p>Fragancia en botella</p>
-        <button onclick="comprar('Fragancia en botella')">Comprar</button>
-      </div>
+    <div class="ingrediente-card">
+      <h3>Bleu de Chanel</h3>
+      <p>Limón, incienso, cedro, jengibre y sándalo.</p>
     </div>
-    <div class="galeria-card">
-      <img src="imagenes/perfume-8032808_1280.jpg" alt="Botella de perfume en paisaje">
-      <div class="galeria-info">
-        <p>Botella de perfume en paisaje</p>
-        <button onclick="comprar('Botella de perfume en paisaje')">Comprar</button>
-      </div>
-    </div>
-    <div class="galeria-card">
-      <img src="imagenes/bottle-2812214_1280.jpg" alt="Botella de perfume transparente">
-      <div class="galeria-info">
-        <p>Botella de perfume transparente</p>
-        <button onclick="comprar('Botella de perfume transparente')">Comprar</button>
-      </div>
-    </div>
-    <div class="galeria-card">
-      <img src="imagenes/colorful-bottle-perfumes-elegance-beautiful-shape-colorful-bottle-perfumes-269500092.webp" alt="Botellas de perfume coloridas">
-      <div class="galeria-info">
-        <p>Botellas de perfume coloridas</p>
-        <button onclick="comprar('Botellas de perfume coloridas')">Comprar</button>
-      </div>
-    </div>
-    <div class="galeria-card">
-      <img src="imagenes/elegancia-auténtica-imágenes-cautivadoras-de-botellas-perfume-flores-y-elementos-naturales-para-el-encanto-eterno-ai-generativo-300154192.webp" alt="Perfume elegante con flores">
-      <div class="galeria-info">
-        <p>Perfume elegante con flores</p>
-        <button onclick="comprar('Perfume elegante con flores')">Comprar</button>
-      </div>
-    </div>
-    <div class="galeria-card">
-      <img src="imagenes/foto-gratis-imagen-maqueta-botella-producto-belleza-fondo_1340-31368.avif" alt="Maqueta de botella de perfume">
-      <div class="galeria-info">
-        <p>Maqueta de botella de perfume</p>
-        <button onclick="comprar('Maqueta de botella de perfume')">Comprar</button>
-      </div>
-    </div>
-    <div class="galeria-card">
-      <img src="imagenes/OIP.webp" alt="Botella de perfume sobre fondo oscuro">
-      <div class="galeria-info">
-        <p>Botella de perfume sobre fondo oscuro</p>
-        <button onclick="comprar('Botella de perfume sobre fondo oscuro')">Comprar</button>
-      </div>
-    </div>
-    <div class="galeria-card">
-      <img src="imagenes/stock-photo-perfumery-cosmetics-branding-and-luxe-concept-perfume-bottle-and-vintage-fragrance-on-glamour-1545397058.jpg" alt="Perfume de lujo con estilo vintage">
-      <div class="galeria-info">
-        <p>Perfume de lujo estilo vintage</p>
-        <button onclick="comprar('Perfume de lujo estilo vintage')">Comprar</button>
-      </div>
+    <div class="ingrediente-card">
+      <h3>Versace Eros</h3>
+      <p>Menta, manzana verde, vainilla, madera de cedro y pachulí.</p>
     </div>
   </div>
 </section>
@@ -137,12 +195,12 @@
     <div class="paso">
       <span>2</span>
       <h3>Presiona comprar</h3>
-      <p>El botón te lleva directo a WhatsApp para coordinar el pedido.</p>
+      <p>Elije el perfume y sigue el proceso para recibirlo en tu dirección.</p>
     </div>
     <div class="paso">
       <span>3</span>
       <h3>Recibe y paga</h3>
-      <p>Entrega rápida y pago por WhatsApp, perfecto para ventas por Hasy.</p>
+      <p>Entrega rápida y pago sencillo, ideal para clientes que quieren una compra segura.</p>
     </div>
   </div>
 </section>
@@ -159,23 +217,27 @@ placeholder="Escribe el nombre del perfume">
 
 <button onclick="pedirPerfume()">
 
-Solicitar por WhatsApp
+Solicitar
 
 </button>
 
 </section>
 
 <footer class="footer">
-  <p>¿Listo para vender por WhatsApp?</p>
+  <p>¿Listo para descubrir tu próximo perfume?</p>
   <div class="footer-links">
-    <a href="https://wa.me/573147317718?text=Hola,%20quiero%20comprar%20un%20perfume" target="_blank" rel="noopener">WhatsApp</a>
-    <a href="https://github.com/hecto123/perfumerialiva" target="_blank" rel="noopener">GitHub</a>
+    <span>Encuentra olores únicos y disfruta de una experiencia visual atractiva.</span>
   </div>
-  <p class="footer-note">Reemplaza el enlace de GitHub con tu repositorio real.</p>
 </footer>
 
-<div class="whatsapp-float">
-  <a href="https://wa.me/573147317718?text=Hola,%20tengo%20una%20consulta" target="_blank" rel="noopener">WhatsApp</a>
+<div class="modal-overlay" id="ingredientes-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeIngredientesModal()">×</button>
+    <h3 id="modal-perfume-name">Ingredientes</h3>
+    <p>Aquí están los componentes principales de esta fragancia:</p>
+    <ul id="modal-ingredientes-list"></ul>
+    <button class="btn btn-primary" onclick="closeIngredientesModal()">Cerrar</button>
+  </div>
 </div>
 
 <script src="app.js"></script>
