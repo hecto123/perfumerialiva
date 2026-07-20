@@ -1,0 +1,91 @@
+/* Styles principales de Perfumería LIVA */
+:root{
+  --bg:#060606;
+  --surface:#121212;
+  --surface-soft:#1b1b1b;
+  --text:#f2f2f2;
+  --muted:#b8b8b8;
+  --gold:#d4af37;
+  --gold-soft:rgba(212,175,55,.18);
+  --border:rgba(255,255,255,.08);
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  font-family:'Poppins',sans-serif;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--text);min-height:100vh;}
+a{text-decoration:none;color:inherit;}
+button,input,select,textarea{font:inherit;}
+
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at top left, rgba(212,175,55,.08), transparent 22%),radial-gradient(circle at bottom right, rgba(255,255,255,.06), transparent 28%);pointer-events:none;}
+
+main{width:min(1200px,100%);margin:0 auto;padding:0 20px 80px;}
+
+header.main-header{display:flex;justify-content:space-between;align-items:center;padding:24px 0;position:relative;}
+header.main-header .logo{display:flex;flex-direction:column;gap:6px;}
+header.main-header .logo h1{font-size:2rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0;}
+header.main-header .logo p{margin:0;color:var(--muted);font-size:.95rem;}
+
+.search-box{max-width:520px;width:100%;position:relative;}
+.search-box input{width:100%;padding:18px 20px 18px 52px;border-radius:24px;border:1px solid var(--border);background:var(--surface);color:var(--text);}
+.search-box svg{position:absolute;top:50%;left:18px;transform:translateY(-50%);width:18px;height:18px;fill:var(--muted);}
+
+.admin-access-btn{position:fixed;top:16px;right:16px;padding:12px 16px;background:var(--gold);color:#111;border:none;border-radius:999px;cursor:pointer;z-index:50;box-shadow:0 14px 32px rgba(0,0,0,.28);}
+
+.hero{display:grid;grid-template-columns:65% 35%;gap:32px;align-items:center;padding:20px 0 40px;}
+.hero-copy span{display:inline-flex;padding:10px 16px;background:var(--gold-soft);border-radius:999px;color:var(--gold);font-weight:700;font-size:.92rem;letter-spacing:.02em;}
+.hero-copy h2{font-size:3.2rem;line-height:1.02;margin:18px 0 16px;}
+.hero-copy p{max-width:620px;line-height:1.8;color:var(--muted);margin-bottom:28px;}
+.hero-copy .hero-buttons{display:flex;flex-wrap:wrap;gap:14px;}
+.hero-copy .btn{display:inline-flex;align-items:center;gap:10px;justify-content:center;padding:16px 26px;border-radius:999px;border:none;cursor:pointer;font-weight:700;transition:.25s;}
+.hero-copy .btn.primary{background:var(--gold);color:#111;}
+.hero-copy .btn.outline{background:transparent;color:var(--text);border:1px solid rgba(212,175,55,.35);}
+.hero-visual{display:flex;align-items:center;justify-content:center;}
+.hero-visual img{width:100%;border-radius:32px;box-shadow:var(--shadow);}
+
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:48px 0 24px;gap:20px;}
+.section-title h2{font-size:2rem;margin:0;}
+.section-title small{color:var(--muted);}
+
+.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;}
+.category-card{padding:22px;border-radius:22px;background:var(--surface);border:1px solid var(--border);cursor:pointer;transition:.25s;display:flex;flex-direction:column;align-items:flex-start;gap:12px;}
+.category-card:hover{transform:translateY(-4px);border-color:var(--gold);}
+.category-card.active{border-color:var(--gold);background:rgba(212,175,55,.14);}
+.category-card span{font-size:.95rem;color:var(--muted);}
+.category-card h3{margin:0;font-size:1.1rem;}
+
+.products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;}
+.product-card{background:var(--surface);border:1px solid var(--border);border-radius:28px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;}
+.product-card img{width:100%;height:280px;object-fit:cover;}
+.product-card .product-body{padding:22px;display:flex;flex-direction:column;gap:12px;flex:1;}
+.product-card .badges{display:flex;flex-wrap:wrap;gap:10px;}
+.badge{padding:8px 12px;border-radius:999px;font-size:.78rem;font-weight:700;background:rgba(212,175,55,.14);color:var(--gold);}
+.product-card h3{margin:0;font-size:1.2rem;}
+.product-card p{margin:0;color:var(--muted);line-height:1.7;flex:1;}
+.product-card .meta{display:flex;justify-content:space-between;align-items:center;gap:12px;font-weight:700;font-size:1rem;}
+.product-card .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.product-card button{padding:14px 16px;border-radius:16px;border:none;font-weight:700;cursor:pointer;transition:.22s;}
+.product-card button.whatsapp{background:var(--gold);color:#111;}
+.product-card button.details{background:rgba(255,255,255,.08);color:var(--text);}
+
+.promo-carousel{position:relative;overflow:hidden;border-radius:32px;border:1px solid var(--border);background:var(--surface);}
+.promo-slide{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:38px;}
+.promo-info span{display:inline-block;padding:10px 16px;border-radius:999px;background:var(--gold-soft);color:var(--gold);font-weight:700;margin-bottom:18px;}
+.promo-info h3{margin:0;font-size:2rem;line-height:1.02;}
+.promo-info p{margin:20px 0 0;color:var(--muted);line-height:1.8;}
+.promo-media img{width:100%;border-radius:28px;}
+
+.cta-card{background:linear-gradient(135deg,rgba(212,175,55,.14),rgba(255,255,255,.06));border:1px solid rgba(212,175,55,.16);border-radius:28px;padding:32px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;}
+.cta-card h3{margin:0;font-size:1.9rem;}
+.cta-card p{margin:12px 0 0;color:var(--muted);line-height:1.8;}
+.cta-card .cta-button{display:inline-flex;align-items:center;gap:10px;padding:15px 22px;border-radius:999px;background:var(--gold);color:#111;font-weight:700;border:none;cursor:pointer;}
+
+.whatsapp-float{position:fixed;bottom:20px;right:20px;z-index:40;}
+.whatsapp-float a{display:flex;align-items:center;justify-content:center;width:62px;height:62px;border-radius:50%;background:var(--gold);color:#111;box-shadow:0 16px 40px rgba(0,0,0,.28);}
+
+.footer{padding:36px 0 18px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--muted);}
+.footer small{display:block;}
+
+@media(max-width:1024px){.hero{grid-template-columns:1fr;}.promo-slide{grid-template-columns:1fr;}.hero-copy h2{font-size:2.4rem;}}
+@media(max-width:768px){main{padding:0 16px 80px;}header.main-header{flex-direction:column;align-items:flex-start;gap:18px;} .hero-copy h2{font-size:2.1rem;} .products-grid{grid-template-columns:1fr;} .admin-access-btn{top:12px;right:12px;padding:10px 14px;}}

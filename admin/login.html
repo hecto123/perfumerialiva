@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Admin | Perfumería LIVA</title>
+  <link rel='stylesheet' href='../css/styles.css'>
+</head>
+<body>
+  <main style='min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;'>
+    <section style='width:100%;max-width:500px;background:rgba(18,18,18,.98);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:32px;box-shadow:0 24px 60px rgba(0,0,0,.35);'>
+      <div style='display:flex;flex-direction:column;gap:18px;'>
+        <div>
+          <h1 style='margin:0;font-size:2rem;color:var(--gold);'>Admin LIVA</h1>
+          <p style='margin:10px 0 0;color:var(--muted);'>Inicia sesión para gestionar el catálogo.</p>
+        </div>
+        <label style='display:block;color:var(--muted);font-size:.92rem;'>Correo</label>
+        <input id='adminEmail' type='email' placeholder='admin@liva.com' style='width:100%;padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:var(--surface);color:var(--text);'>
+        <label style='display:block;color:var(--muted);font-size:.92rem;'>Contraseña</label>
+        <input id='adminPassword' type='password' placeholder='perfume123' style='width:100%;padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:var(--surface);color:var(--text);'>
+        <button id='loginButton' type='button' style='width:100%;padding:16px;border-radius:16px;border:none;background:var(--gold);color:#111;font-weight:700;'>Entrar</button>
+        <p id='loginError' style='color:#ff6b6b;min-height:24px;margin:0;font-size:.95rem;'></p>
+        <p style='color:var(--muted);font-size:.9rem;margin:0;'>Usuario: admin@liva.com / contraseña: perfume123</p>
+      </div>
+    </section>
+  </main>
+  <script>
+    function loginAdmin(){
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value.trim();
+      const error = document.getElementById('loginError');
+      error.textContent = '';
+      if(!email || !password){
+        error.textContent = 'Completa ambos campos para continuar.';
+        return;
+      }
+      if(email === 'admin@liva.com' && password === 'perfume123'){
+        localStorage.setItem('adminLoggedIn', 'true');
+        window.location.href = '../pages/dashboard.html';
+        return;
+      }
+      error.textContent = 'Usuario o contraseña incorrectos. Usa admin@liva.com / perfume123';
+    }
+    document.addEventListener('DOMContentLoaded', function(){
+      document.getElementById('loginButton').addEventListener('click', loginAdmin);
+      document.getElementById('adminEmail').focus();
+    });
+  </script>
+</body>
+</html>

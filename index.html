@@ -1,247 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Perfumería LIVA</title>
-
-<link rel="stylesheet" href="estilos.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfumería LIVA</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-
-<header>
-
-<div class="logo">
-
-<h1>PERFUMERÍA LIVA</h1>
-
-<p>Fragancias Originales e Importadas</p>
-
-</div>
-
-<button class="admin-access-btn" onclick="openAdminLogin()">Acceso admin</button>
-
-</header>
-
-<section class="hero">
-  <div class="hero-text">
-    <span>Fragancias premium</span>
-    <h2>Descubre los aromas que enamoran</h2>
-    <p>Explora una selección de perfumes exclusivos, con un diseño atractivo y opciones pensadas para que el cliente quiera interactuar y comprar.</p>
-    <div class="hero-actions">
-      <!-- El botón Ver catálogo ha sido eliminado según la solicitud -->
-    </div>
-  </div>
-  <div class="hero-image">
-    <img src="imagenes/portada.jpg" alt="Perfumería LIVA">
-  </div>
-</section>
-
-<div class="admin-login-overlay" id="adminLoginOverlay">
-  <div class="admin-login-modal">
-    <button class="modal-close" onclick="closeAdminLogin()">×</button>
-    <h3>Acceso administrador</h3>
-    <p>Ingresa la clave para ver el panel y administrar productos.</p>
-    <input type="password" id="adminPassword" placeholder="Clave secreta">
-    <button class="btn btn-primary" onclick="verifyAdmin()">Entrar</button>
-    <p class="admin-login-error" id="adminLoginError"></p>
-  </div>
-</div>
-
-<section class="admin-panel" id="admin-panel">
-  <h2>Sube tus productos y guarda pedidos</h2>
-  <div class="admin-grid">
-    <div class="admin-card">
-      <h3>Agregar producto</h3>
-      <div class="form-group">
-        <label for="productImage">Foto del producto</label>
-        <input type="file" id="productImage" accept="image/*" capture="environment">
-        <small class="image-note">Desde el celular puedes tomar foto al instante.</small>
+  <button class="admin-access-btn" onclick="window.location.href='admin/login.html'">Acceso admin</button>
+  <main>
+    <header class="main-header">
+      <div id="header-content"></div>
+    </header>
+    <section id="bannerSection" class="hero"></section>
+    <section class="section-title">
+      <h2>Categorías</h2>
+      <small>Perfumes para hombre, mujer, árabes, nicho e inspiraciones.</small>
+    </section>
+    <div id="categoriesGrid" class="categories"></div>
+    <section class="section-title">
+      <h2>Promociones</h2>
+      <small>Ofertas exclusivas y novedades.</small>
+    </section>
+    <div id="promoCarousel" class="promo-carousel"></div>
+    <section class="section-title" id="catalogoSection">
+      <h2>Catálogo de perfumes</h2>
+      <small>Explora fragancias nuevas, destacadas y en oferta.</small>
+    </section>
+    <div id="productsGrid" class="products-grid"></div>
+    <section class="cta-card" id="contactSection">
+      <div>
+        <h3>Si no encuentras tu perfume, nosotros te lo conseguimos</h3>
+        <p>Envía el nombre por WhatsApp y te contactamos rápido.</p>
       </div>
-      <div class="image-preview" id="imagePreview"></div>
-      <div class="form-group">
-        <label for="productName">Nombre</label>
-        <input type="text" id="productName" placeholder="Nombre del perfume">
-      </div>
-      <div class="form-group">
-        <label for="productPrice">Precio</label>
-        <input type="number" id="productPrice" placeholder="Precio en pesos">
-      </div>
-      <div class="form-group">
-        <label for="productIngredients">Ingredientes</label>
-        <input type="text" id="productIngredients" placeholder="Ej: rosa, vainilla, cedro">
-      </div>
-      <button class="btn btn-primary" id="addProductButton" onclick="addProduct()">Agregar producto</button>
-      <button class="btn btn-secondary" id="clearImageButton" type="button" onclick="clearSelectedImage()" style="margin-top:12px;">Limpiar imagen</button>
-      <button class="btn btn-secondary" id="cancelEditButton" onclick="cancelEdit()" style="display:none; margin-top:12px;">Cancelar edición</button>
-      <div class="product-preview" id="productPreview"></div>
-    </div>
-    <div class="admin-card">
-      <h3>Registrar pedido</h3>
-      <div class="form-group">
-        <label for="customerName">Nombre del cliente</label>
-        <input type="text" id="customerName" placeholder="Nombre completo">
-      </div>
-      <div class="form-group">
-        <label for="customerPhone">Teléfono</label>
-        <input type="text" id="customerPhone" placeholder="Ej: 3111234567">
-      </div>
-      <div class="form-group">
-        <label for="orderProduct">Producto</label>
-        <select id="orderProduct"></select>
-      </div>
-      <div class="form-group">
-        <label for="customerNote">Nota</label>
-        <input type="text" id="customerNote" placeholder="Detalle adicional o mensaje">
-      </div>
-      <button class="btn btn-primary" onclick="saveOrder()">Guardar pedido</button>
-      <div class="orders-summary">
-        <h4>Pedidos guardados</h4>
-        <div id="ordersList"></div>
-      </div>
-    </div>
-  </div>
-  <div class="admin-products-section">
-    <h3>Productos en el catálogo</h3>
-    <div id="adminProductList" class="admin-product-list"></div>
-  </div>
-</section>
-
-<section class="quienes-somos">
-  <div class="quienes-somos-content">
-    <div>
-      <span>Quiénes somos</span>
-      <h2>Perfumería LIVA: pasión por las fragancias</h2>
-      <p>Somos una tienda enfocada en ofrecer aromas originales y experiencias premium. Cada perfume se selecciona pensando en calidad, estilo y satisfacción del cliente.</p>
-    </div>
-    <div class="quienes-somos-facts">
-      <div class="fact-item">
-        <strong>+5 años</strong>
-        <p>Atendiendo clientes con confianza y seguridad.</p>
-      </div>
-      <div class="fact-item">
-        <strong>100% original</strong>
-        <p>Solo productos auténticos y garantizados.</p>
-      </div>
-      <div class="fact-item">
-        <strong>Entrega rápida</strong>
-        <p>Pedidos listos para enviar en breve.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="testimonios">
-  <h2>Comentarios reales de clientes</h2>
-  <div class="testimonios-grid">
-    <article class="testimonial-card">
-      <div class="screenshot-header"><span>Chat</span><span>10:22</span></div>
-      <div class="message received">¡El perfume llegó perfecto! Gracias por la rapidez.</div>
-      <div class="message sent">Nos alegra que te haya encantado.</div>
-    </article>
-    <article class="testimonial-card">
-      <div class="screenshot-header"><span>Chat</span><span>14:08</span></div>
-      <div class="message received">La fragancia es increíble, es justo lo que buscaba.</div>
-      <div class="message sent">Gracias por comprar con nosotros.</div>
-    </article>
-    <article class="testimonial-card">
-      <div class="screenshot-header"><span>Chat</span><span>18:50</span></div>
-      <div class="message received">Muy buena atención y entrega rápida. Recomiendo 100%.</div>
-      <div class="message sent">Un gusto atenderte, que lo disfrutes.</div>
-    </article>
-  </div>
-</section>
-
-<section class="catalogo" id="catalogo">
-  <h2>Catálogo de perfumes</h2>
-  <div class="catalogo-grid"></div>
-</section>
-
-<section class="ingredientes">
-  <h2>Ingredientes destacados</h2>
-  <div class="ingredientes-grid">
-    <div class="ingrediente-card">
-      <h3>Dior Sauvage</h3>
-      <p>Bergamota, pimienta, lavanda, patchouli y ambroxan.</p>
-    </div>
-    <div class="ingrediente-card">
-      <h3>Bleu de Chanel</h3>
-      <p>Limón, incienso, cedro, jengibre y sándalo.</p>
-    </div>
-    <div class="ingrediente-card">
-      <h3>Versace Eros</h3>
-      <p>Menta, manzana verde, vainilla, madera de cedro y pachulí.</p>
-    </div>
-  </div>
-</section>
-
-<section class="como-funciona">
-  <h2>Cómo funciona</h2>
-  <div class="pasos-grid">
-    <div class="paso">
-      <span>1</span>
-      <h3>Elige tu aroma</h3>
-      <p>Selecciona el perfume que más te guste en la galería o catálogo.</p>
-    </div>
-    <div class="paso">
-      <span>2</span>
-      <h3>Presiona comprar</h3>
-      <p>Elije el perfume y sigue el proceso para recibirlo en tu dirección.</p>
-    </div>
-    <div class="paso">
-      <span>3</span>
-      <h3>Recibe y paga</h3>
-      <p>Entrega rápida y pago sencillo, ideal para clientes que quieren una compra segura.</p>
-    </div>
-  </div>
-</section>
-
-<section class="solicitar">
-
-<h2>¿No encuentras tu perfume?</h2>
-
-<p>Nosotros lo conseguimos.</p>
-
-<input
-type="text"
-placeholder="Escribe el nombre del perfume">
-
-<button onclick="pedirPerfume()">
-
-Solicitar
-
-</button>
-
-</section>
-
-<footer class="footer">
-  <p>¿Listo para descubrir tu próximo perfume?</p>
-  <div class="footer-links">
-    <span>Encuentra olores únicos y disfruta de una experiencia visual atractiva.</span>
-  </div>
-</footer>
-
-<div class="modal-overlay" id="ingredientes-modal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeIngredientesModal()">×</button>
-    <h3 id="modal-perfume-name">Ingredientes</h3>
-    <p>Aquí están los componentes principales de esta fragancia:</p>
-    <ul id="modal-ingredientes-list"></ul>
-    <button class="btn btn-primary" onclick="closeIngredientesModal()">Cerrar</button>
-  </div>
-</div>
-
-<script src="app.js"></script>
-
+      <button class="cta-button" onclick="comprarWhatsApp('un perfume que no encuentro')">Pedir por WhatsApp</button>
+    </section>
+  </main>
+  <div id="whatsappFloat" class="whatsapp-float"></div>
+  <script src="js/app.js"></script>
 </body>
-
 </html>

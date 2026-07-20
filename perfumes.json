@@ -1,29 +1,99 @@
 [
-{
-"nombre":"Dior Sauvage",
-"precio":"420000",
-"imagen":"imagenes/fragrance-1991531_1280.jpg",
-"ingredientes":["bergamota","pimienta","lavanda","patchouli","ambroxan"]
-},
-
-{
-"nombre":"Bleu de Chanel",
-"precio":"530000",
-"imagen":"imagenes/colorful-bottle-perfumes-elegance-beautiful-shape-colorful-bottle-perfumes-269500092.webp",
-"ingredientes":["limón","incienso","cedro","jengibre","sándalo"]
-},
-
-{
-"nombre":"Versace Eros",
-"precio":"390000",
-"imagen":"imagenes/perfume-8032808_1280.jpg",
-"ingredientes":["menta","manzana verde","vainilla","cedro","pachulí"]
-},
-
-{
-"nombre":"Lattafa Khamrah",
-"precio":"220000",
-"imagen":"imagenes/bottle-2812214_1280.jpg",
-"ingredientes":["azafrán","rosa","madera","oud","ámbar"]
-}
+  {
+    "nombre": "Dior Sauvage",
+    "precio": "420000",
+    "marca": "Dior",
+    "tamano": "100ml",
+    "categoria": "Hombre",
+    "tipo": "Aromático",
+    "descripcion": "Fresco y potente con bergamota, pimienta y lavanda.",
+    "badges": [
+      "Destacado"
+    ],
+    "imagen": "imagenes/fragrance-1991531_1280.jpg",
+    "ingredientes": [
+      "bergamota",
+      "pimienta",
+      "lavanda",
+      "patchouli",
+      "ambroxan"
+    ]
+  },
+  {
+    "nombre": "Bleu de Chanel",
+    "precio": "530000",
+    "marca": "Chanel",
+    "tamano": "100ml",
+    "categoria": "Hombre",
+    "tipo": "Amaderado",
+    "descripcion": "Aroma elegante con limón, incienso y cedro.",
+    "badges": [
+      "Oferta"
+    ],
+    "imagen": "imagenes/colorful-bottle-perfumes-elegance-beautiful-shape-colorful-bottle-perfumes-269500092.webp",
+    "ingredientes": [
+      "limón",
+      "incienso",
+      "cedro",
+      "jengibre",
+      "sándalo"
+    ]
+  },
+  {
+    "nombre": "Floral Femme",
+    "precio": "320000",
+    "marca": "LIVA",
+    "tamano": "80ml",
+    "categoria": "Dama",
+    "tipo": "Floral",
+    "descripcion": "Delicada fragancia femenina con notas de rosa y jazmín.",
+    "badges": [
+      "Nuevo"
+    ],
+    "imagen": "imagenes/dama-1.jpg",
+    "ingredientes": [
+      "rosa",
+      "jazmín",
+      "almizcle",
+      "vainilla"
+    ]
+  },
+  {
+    "nombre": "Luna Rosa",
+    "precio": "280000",
+    "marca": "LIVA",
+    "tamano": "75ml",
+    "categoria": "Dama",
+    "tipo": "Dulce",
+    "descripcion": "Perfume femenino suave con mandarina y maderas claras.",
+    "badges": [
+      "Oferta"
+    ],
+    "imagen": "imagenes/dama-2.jpg",
+    "ingredientes": [
+      "mandarina",
+      "peonía",
+      "sándalo",
+      "musk"
+    ]
+  },
+  {
+    "nombre": "Inspiración Oud",
+    "precio": "450000",
+    "marca": "LIVA",
+    "tamano": "100ml",
+    "categoria": "Inspiraciones",
+    "tipo": "Oriental",
+    "descripcion": "Loción de inspiración premium con oud y notas amaderadas.",
+    "badges": [
+      "Inspiración"
+    ],
+    "imagen": "imagenes/inspiracion-1.jpg",
+    "ingredientes": [
+      "oud",
+      "ámbar",
+      "cedro",
+      "vainilla"
+    ]
+  }
 ]

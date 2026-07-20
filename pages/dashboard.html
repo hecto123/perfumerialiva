@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin | Perfumería LIVA</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <main style="padding:24px;max-width:1200px;margin:0 auto;">
+    <header class="main-header" style="align-items:flex-start;gap:20px;">
+      <div class="logo"><h1>Admin LIVA</h1><p>Panel de control del catálogo</p></div>
+      <button class="btn primary" onclick="logoutAdmin()">Cerrar sesión</button>
+    </header>
+    <section style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px;">
+      <article class="product-card" style="padding:24px;">
+        <h2>Gestión</h2>
+        <button class="btn primary" onclick="location.href='../admin/gestion.html'">Ir a gestión de perfumes</button>
+      </article>
+      <article class="product-card" style="padding:24px;">
+        <h2>Solicitudes</h2>
+        <p>Ver perfumes solicitados por clientes.</p>
+      </article>
+    </section>
+  </main>
+  <script>
+    function logoutAdmin(){
+      localStorage.removeItem('adminLoggedIn');
+      window.location.href = '../admin/login.html';
+    }
+    if (localStorage.getItem('adminLoggedIn') !== 'true') {
+      window.location.href = '../admin/login.html';
+    }
+  </script>
+</body>
+</html>
