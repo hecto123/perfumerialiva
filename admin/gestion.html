@@ -29,7 +29,11 @@
 					<div class="col"><label>Precio <input id="productPrice" type="number" placeholder="Precio"></label></div>
 					<div class="col"><label>Tamaño <input id="productSize" type="text" placeholder="100ml"></label></div>
 				</div>
-				<label>Categoría <input id="productCategory" type="text" placeholder="Hombre / Dama"></label>
+				<label>Categoría <select id="productCategory">
+					<option value="Hombre">Hombre</option>
+					<option value="Dama">Dama</option>
+					<option value="Inspiraciones">Inspiraciones</option>
+				</select></label>
 				<label>Ingredientes <input id="productIngredients" type="text" placeholder="nota1, nota2"></label>
 				<label>Imagen <input id="productImage" type="file" accept="image/*"></label>
 				<div id="imagePreview" style="margin:8px 0;min-height:80px"></div>
@@ -42,6 +46,11 @@
 
 		<section class="card">
 			<h2>Productos</h2>
+			<label>Filtrar por categoría: 
+				<select id="categoryFilterSelect" style="margin-left:8px;padding:6px;border-radius:6px;background:#0e0e0e;color:#fff">
+					<option value="Todos">Todos</option>
+				</select>
+			</label>
 			<div id="productList" class="product-list"></div>
 		</section>
 	</main>
@@ -66,6 +75,7 @@
 		function load(){
 			const stored = localStorage.getItem(STORAGE_KEY);
 			products = stored? JSON.parse(stored) : [];
+			renderCategoryOptions();
 			renderList();
 		}
 
@@ -76,16 +86,34 @@
 		function renderList(){
 			productList.innerHTML = '';
 			if(products.length===0){ productList.innerHTML = '<p>No hay productos.</p>'; return; }
-			products.forEach((p,i)=>{
+			const filterSelect = document.getElementById('categoryFilterSelect');
+			const selected = filterSelect ? filterSelect.value : 'Todos';
+			const filtered = products
+				.map((p,index)=>({product:p,index}))
+				.filter(item => selected==='Todos' || (item.product.categoria || '') === selected);
+			if(filtered.length===0){ productList.innerHTML = '<p>No hay productos para esa categoría.</p>'; return; }
+			filtered.forEach(item=>{
+				const p = item.product;
+				const originalIndex = item.index;
 				const div = document.createElement('div');
 				div.className='product-item';
 				div.innerHTML = `<div><strong>${p.nombre}</strong><div style="font-size:12px;color:#aaa">${p.categoria||''} • $${p.precio}</div></div>
 					<div>
-						<button class="btn" onclick="startEdit(${i})">Editar</button>
-						<button class="btn" onclick="deleteProduct(${i})">Eliminar</button>
+						<button class="btn" onclick="startEdit(${originalIndex})">Editar</button>
+						<button class="btn" onclick="deleteProduct(${originalIndex})">Eliminar</button>
 					</div>`;
 				productList.appendChild(div);
 			});
+		}
+
+		function renderCategoryOptions(){
+			const select = document.getElementById('categoryFilterSelect');
+			if(!select) return;
+			const cats = ['Hombre','Mujer'];
+			const prev = select.value || 'Todos';
+			select.innerHTML = '<option value="Todos">Todos</option>' + cats.map(c=>`<option value="${c}">${c}</option>`).join('');
+			if(cats.includes(prev) || prev==='Todos') select.value = prev; else select.value='Todos';
+			select.onchange = ()=> renderList();
 		}
 
 		adminForm.addEventListener('submit', function(e){
@@ -100,7 +128,7 @@
 			const saveProduct = (img)=>{
 				const prod = { nombre, precio, categoria, ingredientes, tamano: productSize.value || '', imagen: img||'' };
 				if(editIndex===null){ products.push(prod); } else { products[editIndex]=prod; }
-				save(); renderList(); resetForm();
+				save(); renderCategoryOptions(); renderList(); resetForm();
 			};
 
 			const file = productImage.files[0];
@@ -123,14 +151,22 @@
 		});
 
 		function startEdit(i){
-			editIndex = i; const p = products[i]; productName.value=p.nombre; productPrice.value=p.precio; productSize.value=p.tamano||''; productCategory.value=p.categoria||''; productIngredients.value=(p.ingredientes||[]).join(', ');
-			imagePreview.innerHTML = p.imagen? `<img src="${p.imagen}" style="max-width:120px">` : '';
-			addProductButton.textContent='Actualizar producto'; cancelEditButton.style.display='inline-block';
+			editIndex = i;
+			const p = products[i];
+			productName.value = p.nombre;
+			productPrice.value = p.precio;
+			productSize.value = p.tamano||'';
+			productCategory.value = p.categoria === 'Hombre' ? 'Hombre' : 'Mujer';
+			productIngredients.value = (p.ingredientes||[]).join(', ');
+			imagePreview.innerHTML = p.imagen ? `<img src="${p.imagen}" style="max-width:120px">` : '';
+			addProductButton.textContent='Actualizar producto';
+			cancelEditButton.style.display='inline-block';
 		}
 
 		function deleteProduct(i){
 			if(!confirm('Eliminar producto?')) return;
-			products.splice(i,1); save(); renderList(); resetForm();
+			products.splice(i,1);
+			save(); renderCategoryOptions(); renderList(); resetForm();
 		}
 
 		function resetForm(){ editIndex=null; adminForm.reset(); imagePreview.innerHTML=''; addProductButton.textContent='Agregar producto'; cancelEditButton.style.display='none'; }

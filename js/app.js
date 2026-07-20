@@ -1,9 +1,8 @@
 /* Lógica principal de la app pública de Perfumería LIVA */
 const STORAGE_KEY='perfumerialiva_products';
-const CATEGORIES_KEY='perfumerialiva_categories';
 const appState={
   products:[],
-  categories:[],
+  categories:['Hombre','Mujer'],
   favorites:new Set(),
   selectedCategory:'Todos',
   search:'',
@@ -19,6 +18,13 @@ const firebaseConfig={
   appId:'REEMPLAZAR_APP_ID'
 };
 
+function normalizeCategory(value){
+  const cat = (value || '').toString().trim().toLowerCase();
+  if(cat === 'mujer' || cat === 'dama') return 'Mujer';
+  if(cat === 'hombre') return 'Hombre';
+  return 'Mujer';
+}
+
 function normalizeProduct(product,index){
   return {
     id: product.id || Date.now() + index,
@@ -27,7 +33,7 @@ function normalizeProduct(product,index){
     precio: Number(product.precio || 0),
     tamano: product.tamano || '100ml',
     descripcion: product.descripcion || '',
-    categoria: product.categoria || 'Otros',
+    categoria: normalizeCategory(product.categoria),
     tipo: product.tipo || 'Fragancia',
     imagen: product.imagen || 'imagenes/default.jpg',
     badges: Array.isArray(product.badges) ? product.badges : product.badges ? product.badges.toString().split(',').map(b=>b.trim()).filter(Boolean) : [],
@@ -35,48 +41,15 @@ function normalizeProduct(product,index){
   };
 }
 
-function loadCategories(){
-  const stored=localStorage.getItem(CATEGORIES_KEY);
-  if(stored){
-    try{
-      const parsed=JSON.parse(stored);
-      if(Array.isArray(parsed) && parsed.length) appState.categories=parsed;
-    } catch(error){
-      console.error('Error parseando categorías locales:', error);
-    }
-  }
-  if(!Array.isArray(appState.categories) || appState.categories.length===0){
-    appState.categories=['Hombre','Dama','Inspiraciones'];
-    saveCategories();
-  }
-}
-
-function saveCategories(){
-  localStorage.setItem(CATEGORIES_KEY, JSON.stringify(appState.categories));
-}
-
-function ensureProductCategories(){
-  let changed=false;
-  appState.products.forEach(product=>{
-    if(product.categoria && !appState.categories.includes(product.categoria)){
-      appState.categories.push(product.categoria);
-      changed=true;
-    }
-  });
-  if(changed) saveCategories();
-}
-
 function saveProducts(){
   localStorage.setItem(STORAGE_KEY, JSON.stringify(appState.products));
 }
 
 function loadProducts(){
-  loadCategories();
   const stored=localStorage.getItem(STORAGE_KEY);
   if(stored){
     try{
       appState.products=JSON.parse(stored).map(normalizeProduct);
-      ensureProductCategories();
       initApp();
       return;
     } catch(error){
@@ -87,7 +60,6 @@ function loadProducts(){
     .then(response=>response.json())
     .then(datos=>{
       appState.products=datos.map(normalizeProduct);
-      ensureProductCategories();
       saveProducts();
       initApp();
     })
@@ -134,7 +106,7 @@ function renderCategories(){
   const container=document.getElementById('categoriesGrid');
   container.innerHTML=categories.map(cat=>`
     <div class="category-card ${appState.selectedCategory===cat?'active':''}" onclick="setCategory('${cat}')">
-      <span>Categoría</span>
+      <span>Catálogo</span>
       <h3>${cat}</h3>
     </div>
   `).join('');
@@ -146,7 +118,7 @@ function renderBanners(){
     <div class="hero-copy">
       <span>Novedad</span>
       <h2>Encuentra tu aroma ideal en Perfumería LIVA</h2>
-      <p>Explora fragancias premium para hombre, mujer, exclusivos árabes e inspiraciones de marca con oferta especial.</p>
+      <p>Explora fragancias premium para hombre y mujer con envío rápido y atención por WhatsApp.</p>
       <div class="hero-buttons">
         <button class="btn primary" onclick="scrollToSection('catalogoSection')">Ver catálogo</button>
         <button class="btn outline" onclick="scrollToSection('contactSection')">Solicitar perfume</button>
