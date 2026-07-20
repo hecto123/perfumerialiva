@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PerfumerÃ­a LIVA</title>
+  <title>Perfumería LIVA</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
@@ -16,8 +16,8 @@
     </header>
     <section id="bannerSection" class="hero"></section>
     <section class="section-title">
-      <h2>CategorÃ­as</h2>
-      <small>Perfumes para hombre, mujer, Ã¡rabes, nicho e inspiraciones.</small>
+      <h2>Categorías</h2>
+      <small>Perfumes para hombre, mujer, árabes, nicho e inspiraciones.</small>
     </section>
     <div id="categoriesGrid" class="categories"></div>
     <section class="section-title">
@@ -26,14 +26,14 @@
     </section>
     <div id="promoCarousel" class="promo-carousel"></div>
     <section class="section-title" id="catalogoSection">
-      <h2>CatÃ¡logo de perfumes</h2>
+      <h2>Catálogo de perfumes</h2>
       <small>Explora fragancias nuevas, destacadas y en oferta.</small>
     </section>
     <div id="productsGrid" class="products-grid"></div>
     <section class="cta-card" id="contactSection">
       <div>
         <h3>Si no encuentras tu perfume, nosotros te lo conseguimos</h3>
-        <p>EnvÃ­a el nombre por WhatsApp y te contactamos rÃ¡pido.</p>
+        <p>Envía el nombre por WhatsApp y te contactamos rápido.</p>
       </div>
       <button class="cta-button" onclick="comprarWhatsApp('un perfume que no encuentro')">Pedir por WhatsApp</button>
     </section>

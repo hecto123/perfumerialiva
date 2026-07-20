@@ -1,0 +1,6 @@
+// Backup of app.js
+
+const STORAGE_KEY='perfumerialiva_products';
+const ORDERS_KEY='perfumerialiva_orders';
+
+// ...rest of original file (backup) ...

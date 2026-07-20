@@ -1,472 +1,144 @@
 ﻿<!DOCTYPE html>
-<html lang='es'>
+<html lang="es">
 <head>
-  <meta charset='UTF-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <title>Gestión | Perfumería LIVA</title>
-  <link rel='stylesheet' href='../css/styles.css'>
-  <style>
-    .admin-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
-    .admin-panel-card{background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:24px;}
-    .admin-panel-card h2{margin-top:0;color:var(--gold);}
-    .admin-panel-card label{display:block;margin-bottom:14px;color:var(--muted);font-size:.95rem;}
-    .admin-panel-card input,.admin-panel-card select,.admin-panel-card textarea{width:100%;padding:14px;border-radius:16px;border:1px solid var(--border);background:var(--bg);color:var(--text);margin-top:8px;}
-    .admin-panel-card textarea{min-height:120px;resize:vertical;}
-    .admin-product-item{display:grid;grid-template-columns:100px 1fr auto;gap:18px;align-items:center;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.08);}
-    .admin-product-item:last-child{border-bottom:none;}
-    .admin-product-item img{width:100px;height:100px;object-fit:cover;border-radius:18px;}
-    .admin-product-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
-    .form-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
-    .form-actions .btn{min-width:150px;}
-    #imagePreview{margin-top:14px;display:grid;place-items:center;border:1px dashed var(--border);border-radius:18px;padding:16px;min-height:140px;}
-    #imagePreview img{max-width:100%;max-height:220px;border-radius:18px;}
-    .list-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;}
-    .category-filter{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
-    .empty-message{color:var(--muted);padding:24px 0;}
-    .category-list{display:grid;gap:14px;margin-top:18px;}
-    .category-item{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 18px;border:1px solid var(--border);border-radius:18px;background:var(--surface-soft);}
-    .category-item span{font-weight:700;color:var(--text);}
-    .category-actions{display:flex;gap:10px;}
-    @media(max-width:1120px){.admin-layout{grid-template-columns:1fr;}}
-    @media(max-width:768px){main{padding:16px;}}
-  </style>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Admin | Perfumería LIVA</title>
+	<link rel="stylesheet" href="../css/styles.css">
+	<style>
+		main{padding:20px;max-width:1000px;margin:0 auto}
+		.card{background:#111;padding:18px;border-radius:12px;margin-bottom:16px}
+		label{display:block;margin:8px 0}
+		input[type=text], input[type=number], textarea{width:100%;padding:8px;border-radius:8px;border:1px solid #333;background:#0e0e0e;color:#fff}
+		.row{display:flex;gap:12px}
+		.row .col{flex:1}
+		.product-list{margin-top:12px}
+		.product-item{display:flex;align-items:center;justify-content:space-between;padding:10px;border-bottom:1px solid #222}
+		.btn{background:#d4af37;color:#111;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+	</style>
 </head>
 <body>
-  <main style='padding:24px;max-width:1200px;margin:0 auto;min-height:100vh;'>
-    <header class='main-header' style='align-items:flex-start;gap:20px;'>
-      <div class='logo'><h1>Gestión de Catálogo</h1><p>Panel simple con filtro por categoría.</p></div>
-      <button class='btn primary' type='button' onclick='logoutAdmin()'>Cerrar sesión</button>
-    </header>
+	<main>
+		<h1>Panel Admin — Perfumería LIVA</h1>
 
-    <section class='admin-layout'>
-      <article class='admin-panel-card'>
-        <h2>Agregar / editar producto</h2>
-        <form id='productForm' onsubmit='event.preventDefault();saveProduct();'>
-          <label>Nombre<input id='productName' type='text' placeholder='Nombre del perfume'></label>
-          <label>Marca<input id='productMarca' type='text' placeholder='Marca del perfume'></label>
-          <label>Precio<input id='productPrice' type='number' placeholder='Precio en COP'></label>
-          <label>Tamaño<input id='productSize' type='text' placeholder='100ml'></label>
-          <label>Categoría<select id='productCategory'></select></label>
-          <label>Descripción<textarea id='productDescription' placeholder='Descripción breve'></textarea></label>
-          <label>Ingredientes (separados por coma)<textarea id='productIngredients' placeholder='Nota 1, Nota 2, Nota 3'></textarea></label>
-          <label>Badges (opcional, separadas por coma)<input id='productBadges' type='text' placeholder='Nuevo, Oferta, Destacado'></label>
-          <label>Imagen<input id='productImage' type='file' accept='image/*' capture='environment'></label>
-          <div id='imagePreview'>Selecciona una foto o toma una desde tu dispositivo.</div>
-          <div class='form-actions'>
-            <button class='btn primary' type='button' id='saveProductButton' onclick='saveProduct()'>Guardar producto</button>
-            <button class='btn outline' type='button' id='cancelEditButton' onclick='cancelEdit()'>Cancelar edición</button>
-            <button class='btn outline' type='button' onclick='clearImage()'>Borrar imagen</button>
-          </div>
-          <p id='formMessage' style='margin-top:12px;color:var(--muted);'></p>
-        </form>
-      </article>
+		<section class="card">
+			<h2>Agregar / Editar producto</h2>
+			<form id="adminForm">
+				<label>Nombre <input id="productName" type="text" placeholder="Nombre"></label>
+				<div class="row">
+					<div class="col"><label>Precio <input id="productPrice" type="number" placeholder="Precio"></label></div>
+					<div class="col"><label>Tamaño <input id="productSize" type="text" placeholder="100ml"></label></div>
+				</div>
+				<label>Categoría <input id="productCategory" type="text" placeholder="Hombre / Dama"></label>
+				<label>Ingredientes <input id="productIngredients" type="text" placeholder="nota1, nota2"></label>
+				<label>Imagen <input id="productImage" type="file" accept="image/*"></label>
+				<div id="imagePreview" style="margin:8px 0;min-height:80px"></div>
+				<div style="margin-top:8px">
+					<button class="btn" id="addProductButton" type="submit">Agregar producto</button>
+					<button class="btn" id="cancelEditButton" type="button" style="display:none;margin-left:8px">Cancelar</button>
+				</div>
+			</form>
+		</section>
 
-      <article class='admin-panel-card'>
-        <div class='list-header'>
-          <div>
-            <h2>Productos</h2>
-            <p style='margin:4px 0 0;color:var(--muted);font-size:.95rem;'>Filtra productos por categoría.</p>
-          </div>
-          <button class='btn secondary' type='button' onclick='resetForm()'>Nuevo</button>
-        </div>
-        <div class='category-filter' id='categoryFilter'></div>
-        <div id='productItems'></div>
-      </article>
-    </section>
+		<section class="card">
+			<h2>Productos</h2>
+			<div id="productList" class="product-list"></div>
+		</section>
+	</main>
 
-    <section class='admin-panel-card' style='margin-top:24px;'>
-      <h2>Gestión de categorías</h2>
-      <form id='categoryForm' onsubmit='event.preventDefault();saveCategory();'>
-        <label>Nombre de la categoría<input id='categoryName' type='text' placeholder='Ej: Exclusivos'></label>
-        <div class='form-actions'>
-          <button class='btn primary' type='submit'>Guardar categoría</button>
-          <button class='btn outline' type='button' onclick='cancelCategoryEdit()'>Cancelar</button>
-        </div>
-        <p id='categoryMessage' style='margin-top:12px;color:var(--muted);'></p>
-      </form>
-      <div class='category-list' id='categoryItems'></div>
-    </section>
-  </main>
-  <script>
-    const STORAGE_KEY='perfumerialiva_products';
-    const CATEGORIES_KEY='perfumerialiva_categories';
-    let categories=[];
-    let products=[];
-    let editIndex=null;
-    let categoryEditIndex=null;
-    let selectedCategory='Todos';
+	<script>
+		const STORAGE_KEY='perfumerialiva_products';
+		let products = [];
+		let editIndex = null;
 
-    const productItems=document.getElementById('productItems');
-    const productName=document.getElementById('productName');
-    const productMarca=document.getElementById('productMarca');
-    const productPrice=document.getElementById('productPrice');
-    const productSize=document.getElementById('productSize');
-    const productCategory=document.getElementById('productCategory');
-    const productDescription=document.getElementById('productDescription');
-    const productIngredients=document.getElementById('productIngredients');
-    const productBadges=document.getElementById('productBadges');
-    const productImage=document.getElementById('productImage');
-    const imagePreview=document.getElementById('imagePreview');
-    const formMessage=document.getElementById('formMessage');
+		const productList = document.getElementById('productList');
+		const productName = document.getElementById('productName');
+		const productPrice = document.getElementById('productPrice');
+		const productSize = document.getElementById('productSize');
+		const productCategory = document.getElementById('productCategory');
+		const productIngredients = document.getElementById('productIngredients');
+		const productImage = document.getElementById('productImage');
+		const imagePreview = document.getElementById('imagePreview');
+		const adminForm = document.getElementById('adminForm');
+		const addProductButton = document.getElementById('addProductButton');
+		const cancelEditButton = document.getElementById('cancelEditButton');
 
-    const categoryName=document.getElementById('categoryName');
-    const categoryItems=document.getElementById('categoryItems');
-    const categoryMessage=document.getElementById('categoryMessage');
-    const categoryFilter=document.getElementById('categoryFilter');
+		function load(){
+			const stored = localStorage.getItem(STORAGE_KEY);
+			products = stored? JSON.parse(stored) : [];
+			renderList();
+		}
 
-    function ensureSecurity(){
-      if(localStorage.getItem('adminLoggedIn') !== 'true'){
-        window.location.href='login.html';
-      }
-    }
+		function save(){
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+		}
 
-    function logoutAdmin(){
-      localStorage.removeItem('adminLoggedIn');
-      window.location.href='login.html';
-    }
+		function renderList(){
+			productList.innerHTML = '';
+			if(products.length===0){ productList.innerHTML = '<p>No hay productos.</p>'; return; }
+			products.forEach((p,i)=>{
+				const div = document.createElement('div');
+				div.className='product-item';
+				div.innerHTML = `<div><strong>${p.nombre}</strong><div style="font-size:12px;color:#aaa">${p.categoria||''} • $${p.precio}</div></div>
+					<div>
+						<button class="btn" onclick="startEdit(${i})">Editar</button>
+						<button class="btn" onclick="deleteProduct(${i})">Eliminar</button>
+					</div>`;
+				productList.appendChild(div);
+			});
+		}
 
-    function normalizeProduct(product,index){
-      return {
-        id: product.id || Date.now() + index,
-        nombre: product.nombre || '',
-        marca: product.marca || 'LIVA',
-        precio: Number(product.precio || 0),
-        tamano: product.tamano || '100ml',
-        categoria: product.categoria || 'Otros',
-        descripcion: product.descripcion || '',
-        ingredientes: Array.isArray(product.ingredientes) ? product.ingredientes : product.ingredientes ? product.ingredientes.toString().split(',').map(i=>i.trim()).filter(Boolean) : [],
-        badges: Array.isArray(product.badges) ? product.badges : product.badges ? product.badges.toString().split(',').map(b=>b.trim()).filter(Boolean) : [],
-        imagen: product.imagen || ''
-      };
-    }
+		adminForm.addEventListener('submit', function(e){
+			e.preventDefault();
+			const nombre = productName.value.trim();
+			const precio = Number(productPrice.value);
+			const categoria = productCategory.value.trim();
+			const ingredientes = productIngredients.value.split(',').map(s=>s.trim()).filter(Boolean);
 
-    function loadCategories(){
-      const stored=localStorage.getItem(CATEGORIES_KEY);
-      if(stored){
-        try{
-          const parsed=JSON.parse(stored);
-          if(Array.isArray(parsed)) categories=parsed.filter(Boolean);
-        } catch(error){
-          console.error('Error cargando categorías desde storage:', error);
-        }
-      }
-      if(!categories.length){
-        categories=['Hombre','Dama','Inspiraciones'];
-        saveCategories();
-      }
-    }
+			if(!nombre || !precio) return alert('Nombre y precio son requeridos');
 
-    function saveCategories(){
-      categories=[...new Set(categories.map(cat=>cat.trim()).filter(Boolean))];
-      localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories));
-    }
+			const saveProduct = (img)=>{
+				const prod = { nombre, precio, categoria, ingredientes, tamano: productSize.value || '', imagen: img||'' };
+				if(editIndex===null){ products.push(prod); } else { products[editIndex]=prod; }
+				save(); renderList(); resetForm();
+			};
 
-    function loadProducts(){
-      loadCategories();
-      const stored=localStorage.getItem(STORAGE_KEY);
-      if(stored){
-        try{
-          products=JSON.parse(stored).map(normalizeProduct);
-        } catch(error){
-          console.error('Error cargando productos desde storage:', error);
-          products=[];
-        }
-      } else {
-        products=[];
-      }
-      ensureProductCategories();
-      renderCategoryOptions();
-      renderCategoryFilter();
-      renderAdminProducts();
-      renderCategoryList();
-    }
+			const file = productImage.files[0];
+			if(file){
+				const reader = new FileReader();
+				reader.onload = ()=> saveProduct(reader.result);
+				reader.readAsDataURL(file);
+			} else {
+				const currentImg = editIndex!==null && products[editIndex] ? products[editIndex].imagen : '';
+				saveProduct(currentImg);
+			}
+		});
 
-    function ensureProductCategories(){
-      let changed=false;
-      products.forEach(product=>{
-        if(product.categoria && !categories.includes(product.categoria)){
-          categories.push(product.categoria);
-          changed=true;
-        }
-      });
-      if(changed) saveCategories();
-    }
+		cancelEditButton.addEventListener('click', resetForm);
 
-    function saveProducts(){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
-    }
+		productImage.addEventListener('change', ()=>{
+			const f = productImage.files[0];
+			if(!f){ imagePreview.innerHTML=''; return; }
+			const r = new FileReader(); r.onload = ()=> imagePreview.innerHTML = `<img src="${r.result}" style="max-width:120px">`; r.readAsDataURL(f);
+		});
 
-    function renderCategoryOptions(){
-      productCategory.innerHTML=categories.map(cat=>`<option value="${cat}">${cat}</option>`).join('');
-      productCategory.value=categories[0] || '';
-    }
+		function startEdit(i){
+			editIndex = i; const p = products[i]; productName.value=p.nombre; productPrice.value=p.precio; productSize.value=p.tamano||''; productCategory.value=p.categoria||''; productIngredients.value=(p.ingredientes||[]).join(', ');
+			imagePreview.innerHTML = p.imagen? `<img src="${p.imagen}" style="max-width:120px">` : '';
+			addProductButton.textContent='Actualizar producto'; cancelEditButton.style.display='inline-block';
+		}
 
-    function renderCategoryFilter(){
-      if(!categoryFilter) return;
-      const allCategories=['Todos',...categories];
-      categoryFilter.innerHTML=allCategories.map(cat=>`
-        <button type="button" class="btn ${selectedCategory===cat ? 'primary' : 'outline'}" onclick="setAdminCategory('${cat}')">${cat}</button>
-      `).join('');
-    }
+		function deleteProduct(i){
+			if(!confirm('Eliminar producto?')) return;
+			products.splice(i,1); save(); renderList(); resetForm();
+		}
 
-    function setAdminCategory(cat){
-      selectedCategory=cat;
-      renderCategoryFilter();
-      renderAdminProducts();
-    }
+		function resetForm(){ editIndex=null; adminForm.reset(); imagePreview.innerHTML=''; addProductButton.textContent='Agregar producto'; cancelEditButton.style.display='none'; }
 
-    function getFilteredProducts(){
-      return products.filter(product=> selectedCategory==='Todos' || product.categoria===selectedCategory);
-    }
+		// expose for inline handlers
+		window.startEdit = startEdit; window.deleteProduct = deleteProduct;
 
-    function renderAdminProducts(){
-      if(!productItems) return;
-      const filtered=getFilteredProducts();
-      if(filtered.length===0){
-        productItems.innerHTML='<p class="empty-message">No hay productos en esa categoría.</p>';
-        return;
-      }
-      productItems.innerHTML=filtered.map(product=>{
-        const index=products.indexOf(product);
-        return `
-          <div class="admin-product-item">
-            <img src="${product.imagen || 'https://via.placeholder.com/100'}" alt="${product.nombre}">
-            <div>
-              <h3 style="margin:0 0 8px;color:var(--text);">${product.nombre}</h3>
-              <p style="margin:0;color:var(--muted);">${product.marca} • ${product.categoria} • ${product.tamano}</p>
-              <p style="margin:8px 0 0;color:var(--muted);">${product.descripcion || 'Sin descripción'}</p>
-            </div>
-            <div class="admin-product-actions">
-              <button class="btn secondary" onclick="startEdit(${index})">Editar</button>
-              <button class="btn primary" onclick="deleteProduct(${index})">Eliminar</button>
-            </div>
-          </div>`;
-      }).join('');
-    }
-
-    function renderCategoryList(){
-      if(!categoryItems) return;
-      if(categories.length===0){
-        categoryItems.innerHTML='<p class="empty-message">Aún no hay categorías definidas.</p>';
-        return;
-      }
-      categoryItems.innerHTML=categories.map((cat,index)=>`
-        <div class="category-item">
-          <span>${cat}</span>
-          <div class="category-actions">
-            <button class="btn secondary" type="button" onclick="startCategoryEdit(${index})">Editar</button>
-            <button class="btn primary" type="button" onclick="deleteCategory(${index})">Eliminar</button>
-          </div>
-        </div>`).join('');
-    }
-
-    function saveProduct(){
-      const nombre=productName.value.trim();
-      const marca=productMarca.value.trim();
-      const precio=Number(productPrice.value.trim());
-      const tamano=productSize.value.trim();
-      const categoria=productCategory.value;
-      const descripcion=productDescription.value.trim();
-      const ingredientes=productIngredients.value.split(',').map(i=>i.trim()).filter(Boolean);
-      const badges=productBadges.value.split(',').map(b=>b.trim()).filter(Boolean);
-      const imagenFile=productImage.files[0];
-
-      if(!nombre || !precio || !categoria || (!imagenFile && editIndex===null && !imagePreview.querySelector('img'))){
-        formMessage.textContent='Completa nombre, precio, categoría y selecciona una imagen.';
-        return;
-      }
-
-      const saveNewProduct=(imagenUrl)=>{
-        const productData={
-          id: editIndex!==null ? products[editIndex].id : Date.now(),
-          nombre,
-          marca: marca || 'LIVA',
-          precio,
-          tamano: tamano || '100ml',
-          categoria,
-          descripcion,
-          ingredientes,
-          badges,
-          imagen: imagenUrl
-        };
-
-        if(editIndex===null){
-          products.push(productData);
-          formMessage.textContent='Producto agregado correctamente.';
-        } else {
-          products[editIndex]=productData;
-          formMessage.textContent='Producto actualizado correctamente.';
-        }
-
-        if(!categories.includes(categoria)){
-          categories.push(categoria);
-          saveCategories();
-          renderCategoryOptions();
-          renderCategoryFilter();
-          renderCategoryList();
-        }
-
-        saveProducts();
-        renderAdminProducts();
-        resetForm();
-      };
-
-      if(imagenFile){
-        const reader=new FileReader();
-        reader.onload=function(event){
-          saveNewProduct(event.target.result);
-        };
-        reader.readAsDataURL(imagenFile);
-      } else {
-        const currentImage=editIndex!==null ? products[editIndex].imagen : '';
-        saveNewProduct(currentImage);
-      }
-    }
-
-    function startEdit(index){
-      const product=products[index];
-      if(!product) return;
-      editIndex=index;
-      productName.value=product.nombre;
-      productMarca.value=product.marca;
-      productPrice.value=product.precio;
-      productSize.value=product.tamano;
-      productCategory.value=product.categoria;
-      productDescription.value=product.descripcion;
-      productIngredients.value=product.ingredientes.join(', ');
-      productBadges.value=product.badges.join(', ');
-      imagePreview.innerHTML=product.imagen ? `<img src="${product.imagen}" alt="Vista previa">` : 'Selecciona una foto o toma una desde tu dispositivo.';
-      formMessage.textContent='Editando producto existente.';
-    }
-
-    function cancelEdit(){
-      editIndex=null;
-      resetForm();
-      formMessage.textContent='Edición cancelada.';
-    }
-
-    function deleteProduct(index){
-      if(!confirm('¿Deseas eliminar este producto?')) return;
-      products.splice(index,1);
-      saveProducts();
-      renderAdminProducts();
-      resetForm();
-      formMessage.textContent='Producto eliminado.';
-    }
-
-    function clearImage(){
-      productImage.value='';
-      imagePreview.innerHTML='Selecciona una foto o toma una desde tu dispositivo.';
-    }
-
-    function resetForm(){
-      editIndex=null;
-      productName.value='';
-      productMarca.value='';
-      productPrice.value='';
-      productSize.value='100ml';
-      productCategory.value=categories[0] || '';
-      productDescription.value='';
-      productIngredients.value='';
-      productBadges.value='';
-      productImage.value='';
-      imagePreview.innerHTML='Selecciona una foto o toma una desde tu dispositivo.';
-      formMessage.textContent='';
-    }
-
-    function saveCategory(){
-      const name=categoryName.value.trim();
-      if(!name){
-        categoryMessage.textContent='Escribe un nombre de categoría válido.';
-        return;
-      }
-      if(categoryEditIndex===null){
-        if(categories.includes(name)){
-          categoryMessage.textContent='La categoría ya existe.';
-          return;
-        }
-        categories.push(name);
-        categoryMessage.textContent='Categoría creada correctamente.';
-      } else {
-        const oldName=categories[categoryEditIndex];
-        if(oldName === name){
-          categoryMessage.textContent='No se realizaron cambios.';
-          return;
-        }
-        if(categories.includes(name)){
-          categoryMessage.textContent='Ya existe otra categoría con ese nombre.';
-          return;
-        }
-        categories[categoryEditIndex]=name;
-        products=products.map(product=>{
-          if(product.categoria===oldName){
-            return {...product,categoria:name};
-          }
-          return product;
-        });
-        saveProducts();
-        categoryMessage.textContent='Categoría actualizada correctamente.';
-      }
-      saveCategories();
-      renderCategoryOptions();
-      renderCategoryFilter();
-      renderCategoryList();
-      resetCategoryForm();
-      renderAdminProducts();
-    }
-
-    function startCategoryEdit(index){
-      categoryEditIndex=index;
-      categoryName.value=categories[index] || '';
-      categoryMessage.textContent='Editando categoría.';
-    }
-
-    function cancelCategoryEdit(){
-      categoryEditIndex=null;
-      resetCategoryForm();
-      categoryMessage.textContent='Edición de categoría cancelada.';
-    }
-
-    function deleteCategory(index){
-      const categoryToDelete=categories[index];
-      const inUse=products.some(product=>product.categoria===categoryToDelete);
-      if(inUse){
-        categoryMessage.textContent='No se puede eliminar una categoría que está en uso por productos.';
-        return;
-      }
-      if(!confirm(`Eliminar categoría "${categoryToDelete}"?`)) return;
-      categories.splice(index,1);
-      saveCategories();
-      renderCategoryOptions();
-      renderCategoryFilter();
-      renderCategoryList();
-      cancelCategoryEdit();
-      categoryMessage.textContent='Categoría eliminada.';
-    }
-
-    function resetCategoryForm(){
-      categoryEditIndex=null;
-      categoryName.value='';
-    }
-
-    productImage.addEventListener('change',()=>{
-      const file=productImage.files[0];
-      if(!file){
-        imagePreview.innerHTML='Selecciona una foto o toma una desde tu dispositivo.';
-        return;
-      }
-      const reader=new FileReader();
-      reader.onload=function(event){
-        imagePreview.innerHTML=`<img src="${event.target.result}" alt="Vista previa">`;
-      };
-      reader.readAsDataURL(file);
-    });
-
-    window.addEventListener('DOMContentLoaded',()=>{
-      ensureSecurity();
-      loadProducts();
-      resetForm();
-    });
-  </script>
+		load();
+	</script>
 </body>
 </html>
